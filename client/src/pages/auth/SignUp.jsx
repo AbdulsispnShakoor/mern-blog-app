@@ -1,7 +1,49 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 
 const SignUp = () => {
+    const [userRegistration, setUserRegistration] = useState({
+        name:"",
+        email:"",
+        password:"",
+    });
+    const navigate = useNavigate()
+
+    const handleChange = (e) => {
+        const {name,value} = e.target;
+        setUserRegistration({...userRegistration,[name]:value})
+    };
+
+const handleSubmit = async(e) => {
+    e.preventDefault();
+    try {
+        
+    
+        const {name,email,password} = userRegistration;
+
+        if(!name || !email || !password){
+            alert("Please enter your credentials first to continue.");
+        }else{
+            const res = await fetch("/api/auth/register",{
+                method:"POST",
+                headers:{"Content-Type": "application/json"},
+                body:JSON.stringify(userRegistration)
+            });
+            const msg = await res.json()
+            alert(msg.message)
+            setUserRegistration({
+                name:"",
+                email:"",
+                password:"",
+            });
+            navigate("/sign-in")
+
+        }
+
+    } catch (error) {
+        console.log(error.message)   
+    }
+};
     return (
         <section className="py-4 bg-gray-50 sm:py-16 lg:py-8">
             <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -12,7 +54,7 @@ const SignUp = () => {
                 <div className="relative max-w-md mx-auto mt-8 md:mt-16">
                     <div className="overflow-hidden bg-white rounded-md shadow-md">
                         <div className="px-4 py-6 sm:px-8 sm:py-7">
-                            <form action="#" method="POST">
+                            <form onSubmit={handleSubmit}>
                                 <div className="space-y-5">
                                     <div>
                                         <label htmlFor="name" className="text-base font-medium text-gray-900"> Name </label>
@@ -23,7 +65,7 @@ const SignUp = () => {
                                                 </svg>
 
                                             </div>
-                                            <input type="text" name="name" id="name" autoComplete='off' placeholder="Enter name to get started" className="block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-blue-600 caret-blue-600" />
+                                            <input type="text" name="name" id="name" value={userRegistration.name} onChange={handleChange} autoComplete='off' placeholder="Enter name to get started" className="block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-blue-600 caret-blue-600" />
                                         </div>
                                     </div>
                                     <div>
@@ -34,7 +76,7 @@ const SignUp = () => {
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
                                                 </svg>
                                             </div>
-                                            <input type="email" name="email" id="email" autoComplete='off' placeholder="Enter email to get started" className="block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-blue-600 caret-blue-600" />
+                                            <input type="email" name="email" id="email" value={userRegistration.email} onChange={handleChange} autoComplete='off' placeholder="Enter email to get started" className="block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-blue-600 caret-blue-600" />
                                         </div>
                                     </div>
                                     <div>
@@ -47,7 +89,7 @@ const SignUp = () => {
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" />
                                                 </svg>
                                             </div>
-                                            <input type="password" name="password" autoComplete='off' id="password" placeholder="Enter your password" className="block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-blue-600 caret-blue-600" />
+                                            <input type="password" name="password" autoComplete='off' id="password" value={userRegistration.password} onChange={handleChange} placeholder="Enter your password" className="block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-blue-600 caret-blue-600" />
                                         </div>
                                     </div>
                                     <div>

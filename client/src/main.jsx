@@ -15,6 +15,7 @@ import Dashboard from './pages/Dashboard.jsx';
 import SignUp from './pages/auth/SignUp.jsx';
 import SignIn from './pages/auth/SignIn.jsx';
 import ForgotPassword from './pages/auth/ForgotPassword.jsx';
+import { Toaster } from 'react-hot-toast';
 
 // You can do this:
 const router = createBrowserRouter(
@@ -32,6 +33,10 @@ const router = createBrowserRouter(
 );
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-  <RouterProvider router={router} />
+    <RouterProvider router={router} />
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+      />
   </React.StrictMode>,
 )

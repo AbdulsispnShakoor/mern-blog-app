@@ -1,7 +1,53 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import toast from 'react-hot-toast';
+import { Link, useNavigate } from 'react-router-dom'
 
 const SignIn = () => {
+    const [userLogin, setUserLogin] = useState({
+        email:"",
+        password:""
+    });
+const navigate = useNavigate();
+
+    const handleChange = (e) => {
+        const {name,value} = e.target;
+        setUserLogin({...userLogin,[name]:value})
+    };
+
+const handleSubmit = async(e) => {
+    e.preventDefault();
+    try {
+        
+    
+        const {email,password} = userLogin;
+
+        if( !email || !password){
+            alert("Please enter your credentials first to continue.");
+        }else{
+            const res = await fetch("/api/auth/login",{
+                method:"POST",
+                headers:{"Content-Type": "application/json"},
+                body:JSON.stringify(userLogin)
+            });
+            const msg = await res.json()
+            if(msg.status === "success"){
+                toast.success(msg.message)
+                setUserLogin({
+                    email:"",
+                    password:"",
+                });
+                navigate("/")
+            }else{
+                toast.error(msg.message)
+            }
+
+        }
+
+    } catch (error) {
+        console.log(error.message)   
+    }
+};
+
     return (
         <section className="py-10 bg-gray-50 sm:py-16 lg:py-16">
             <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -12,7 +58,7 @@ const SignIn = () => {
                 <div className="relative max-w-md mx-auto mt-8 md:mt-16">
                     <div className="overflow-hidden bg-white rounded-md shadow-md">
                         <div className="px-4 py-6 sm:px-8 sm:py-7">
-                            <form action="#" method="POST">
+                            <form onSubmit={handleSubmit}>
                                 <div className="space-y-5">
                                     <div>
                                         <label htmlFor="email" className="text-base font-medium text-gray-900"> Email address </label>
@@ -22,7 +68,7 @@ const SignIn = () => {
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
                                                 </svg>
                                             </div>
-                                            <input type="email" name="email" id="email" autoComplete='off' placeholder="Enter email to get started" className="block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-blue-600 caret-blue-600" />
+                                            <input type="email" name="email" id="email" value={userLogin.email} onChange={handleChange} autoComplete='off' placeholder="Enter email to get started" className="block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-blue-600 caret-blue-600" />
                                         </div>
                                     </div>
                                     <div>
@@ -35,7 +81,7 @@ const SignIn = () => {
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" />
                                                 </svg>
                                             </div>
-                                            <input type="password" name="password" autoComplete='off' id="password" placeholder="Enter your password" className="block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-blue-600 caret-blue-600" />
+                                            <input type="password" name="password" value={userLogin.password} onChange={handleChange} autoComplete='off' id="password" placeholder="Enter your password" className="block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-blue-600 caret-blue-600" />
                                         </div>
                                         <Link to="/forgot-password" className="text-sm text-right font-medium text-blue-600 transition-all duration-200 hover:text-blue-600 focus:text-blue-600 hover:underline"> Forgot password? </Link>
                                     </div>
