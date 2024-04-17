@@ -17,27 +17,32 @@ import SignIn from './pages/auth/SignIn.jsx';
 import ForgotPassword from './pages/auth/ForgotPassword.jsx';
 import { Toaster } from 'react-hot-toast';
 import { Provider } from 'react-redux'
-import { store } from './store/store.js';
+import { store, persister } from './store/store.js';
+// import { PersistGate } from 'redux-persist/lib/integration/react';
+import { PersistGate } from 'redux-persist/integration/react';
 // You can do this:
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route  path="/" element={<App />}>
-     <Route index path="/" element={<Home />} />
-     <Route index path="about" element={<About />} />
-     <Route index path="projects" element={<Projects />} />
-     <Route index path="dashboard" element={<Dashboard />} />
-     <Route index path="sign-up" element={<SignUp />} />
-     <Route index path="sign-in" element={<SignIn />} />
-     <Route index path="forgot-password" element={<ForgotPassword />} />
+    <Route path="/" element={<App />}>
+      <Route index path="/" element={<Home />} />
+      <Route index path="about" element={<About />} />
+      <Route index path="projects" element={<Projects />} />
+      <Route index path="dashboard" element={<Dashboard />} />
+      <Route index path="sign-up" element={<SignUp />} />
+      <Route index path="sign-in" element={<SignIn />} />
+      <Route index path="forgot-password" element={<ForgotPassword />} />
     </Route>
   )
 );
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <Provider store={store}>
-    <RouterProvider router={router} />
+  <PersistGate persistor={persister}>
+
+    <Provider store={store}>
+      <RouterProvider router={router} />
       <Toaster
         position="top-right"
         reverseOrder={false}
       />
-  </Provider>,
+    </Provider>,
+  </PersistGate>
 )
