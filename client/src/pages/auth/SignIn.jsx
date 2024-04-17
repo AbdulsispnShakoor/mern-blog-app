@@ -1,52 +1,67 @@
 import React, { useState } from 'react'
 import toast from 'react-hot-toast';
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom';
+import { signInFailure,signInSuccess,signInStart } from '../../store/features/authSlice/authSlice';
+import {useDispatch,useSelector} from "react-redux"
 
 const SignIn = () => {
     const [userLogin, setUserLogin] = useState({
         email:"",
         password:""
     });
-const navigate = useNavigate();
+    const authData = useSelector((state)=> state.auth);
 
-    const handleChange = (e) => {
-        const {name,value} = e.target;
-        setUserLogin({...userLogin,[name]:value})
-    };
+    const dispatch = useDispatch();
 
-const handleSubmit = async(e) => {
-    e.preventDefault();
+    const navigate = useNavigate();
+
+        const handleChange = (e) => {
+            const {name,value} = e.target;
+            setUserLogin({...userLogin,[name]:value})
+        };
+
+    const handleSubmit = async(e) => {
+        e.preventDefault();
     try {
-        
-    
-        const {email,password} = userLogin;
+            
+            const {email,password} = userLogin;
 
-        if( !email || !password){
-            alert("Please enter your credentials first to continue.");
-        }else{
-            const res = await fetch("/api/auth/login",{
-                method:"POST",
-                headers:{"Content-Type": "application/json"},
-                body:JSON.stringify(userLogin)
-            });
-            const msg = await res.json()
-            if(msg.status === "success"){
-                toast.success(msg.message)
-                setUserLogin({
-                    email:"",
-                    password:"",
-                });
-                navigate("/")
+            if( !email || !password){
+                toast.error("Please enter your credentials first to continue.");
             }else{
-                toast.error(msg.message)
+                dispatch(signInStart());
+                    const res = await fetch("/api/auth/login",{
+                    method:"POST",
+                    headers:{"Content-Type": "application/json"},
+                    body:JSON.stringify(userLogin)
+
+                });
+                const data = await res.json()
+                if(data.status === "success"){
+                    toast.success(data.message)
+                    setUserLogin({
+                        email:"",
+                        password:"",
+                    });
+                    dispatch(signInSuccess(data))
+                    navigate("/")
+                }else{
+                    dispatch(signInFailure(data.message));
+                    toast.error(data.message)
+                }
+
             }
 
+        } catch (error) {
+            console.log(error.message)   
         }
+    };
 
-    } catch (error) {
-        console.log(error.message)   
-    }
-};
+
+    if(authData.loading){
+        <h1 className='text-2xl font-bold text-center'>loading....</h1>
+    };
+
 
     return (
         <section className="py-10 bg-gray-50 sm:py-16 lg:py-16">
@@ -56,6 +71,11 @@ const handleSubmit = async(e) => {
                     <p className="max-w-xl mx-auto mt-4 text-base leading-relaxed text-gray-600">Login to your account</p>
                 </div>
                 <div className="relative max-w-md mx-auto mt-8 md:mt-16">
+                    {/*if error  */}
+                    {
+                        authData.error !==  null && <h1 className='text-sm font-bold text-center text-red-600'>{authData.error}</h1>
+                    }
+                    {/* error  */}
                     <div className="overflow-hidden bg-white rounded-md shadow-md">
                         <div className="px-4 py-6 sm:px-8 sm:py-7">
                             <form onSubmit={handleSubmit}>
