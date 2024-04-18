@@ -3,6 +3,7 @@ import toast from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
 import { signInFailure,signInSuccess,signInStart } from '../../store/features/authSlice/authSlice';
 import {useDispatch,useSelector} from "react-redux"
+import OAuth from './OAuth';
 
 const SignIn = () => {
     const [userLogin, setUserLogin] = useState({
@@ -112,9 +113,7 @@ const SignIn = () => {
                                         <div className="flex items-center justify-center gap-4 my-4">
                                             <div className='w-full h-[1px] bg-slate-300 rounded-full my-3'></div>  or <div className='w-full h-[1px] bg-slate-300 rounded-full my-3'></div>
                                         </div>
-                                        <button type="submit" className="inline-flex items-center justify-center w-full px-4 py-4 text-base font-semibold text-blue-600 border-blue-600 hover:bg-blue-600 hover:text-white transition-all duration-200 border border-transparent rounded-md focus:outline-none">
-                                            Google
-                                        </button>
+                                        <OAuth />
                                     </div>
                                     <div className="text-center">
                                         <p className="text-base text-gray-600">Don’t have an account? <Link to="/sign-up" className="font-medium text-blue-500 transition-all duration-200 hover:text-blue-600 hover:underline">Create a free account</Link></p>

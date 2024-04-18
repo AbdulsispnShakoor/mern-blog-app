@@ -25,7 +25,7 @@ export const registerController = asyncHandler(async (req, res,next) => {
  
     })
     
-    export const loginController = asyncHandler(async (req, res,next) => {
+export const loginController = asyncHandler(async (req, res,next) => {
      
         
         const {email,password} = req.body;
@@ -66,4 +66,55 @@ export const registerController = asyncHandler(async (req, res,next) => {
             }
         })
         
-})
+});
+
+export const googleController = asyncHandler(async (req, res,next) => {
+
+
+        const {name,email,googlePhotoURL} = req.body;
+
+        if(!name || !email || !googlePhotoURL|| name === " " || email === " " || googlePhotoURL === " "){
+            const error = new CustomError("please enter a valide data.", 400);
+            return next(error);
+        }
+        // checking the user exist 
+        const user = await userModel.findOne({email});
+        if(user){
+            const token = jwt.sign({id:user._id},process.env.JWT_SECRET,{
+                expiresIn:"7d"
+            });
+            const {password, ...rest} = user._doc;
+
+            res.status(200).cookie("access-token", token,{
+                httpOnly: true
+            }).json({
+                status:"success",
+                message:"Google login successfully",
+                user:rest
+            })
+        }else{
+            const generatePassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
+            const hashedPassword = bcrypt.hashSync(generatePassword,10);
+            const newUser = new userModel({
+                name:name.toLowerCase().split(' ').join('') + Math.random().toString(9).slice(-4),
+                email,
+                password:hashedPassword,
+                googlePhotoURL
+            });
+
+            await newUser.save();
+            const token = jwt.sign({id:newUser._id},process.env.JWT_SECRET,{
+                expiresIn:"7d"
+            });
+            const  {password, ...rest} = newUser._doc;
+            res.status(200).cookie("access_token", token,{
+                httpOnly:true,
+            }).json({
+                status:"success",
+                message:"Google registeration successful",
+                user:rest
+            });
+        }
+     
+    
+    })
