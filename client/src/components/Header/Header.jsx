@@ -6,12 +6,9 @@ import { MdOutlineLightMode } from "react-icons/md";
 import Navbar from './Navbar';
 
 const Header = () => {
-
-   
+ 
   return (
-    <header className='lg:px-8 bg-slate-50 py-2 border-b-2'>
       <Navbar />
-    </header>
   )
 }
 

@@ -22,6 +22,7 @@ import { store, persister } from './store/store.js';
 import { PersistGate } from 'redux-persist/integration/react';
 import Profile from './pages/auth/Profile.jsx';
 import PageNotFound from './pages/PageNotFound.jsx';
+import { ThemeProvider } from './components/theme/ThemeProvider.jsx';
 // You can do this:
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -42,7 +43,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <PersistGate persistor={persister}>
 
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <ThemeProvider>
+        <RouterProvider router={router} />
+      </ThemeProvider>
       <Toaster
         position="top-right"
         reverseOrder={false}

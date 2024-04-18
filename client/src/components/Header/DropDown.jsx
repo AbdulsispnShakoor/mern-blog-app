@@ -26,8 +26,7 @@ const DropDown = ({userInfo}) => {
       }
       };
       
-     
-console.log(userInfo)
+
 
   return (
     <div className="relative">
