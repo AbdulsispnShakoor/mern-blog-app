@@ -8,7 +8,7 @@ const App = () => {
     <main className='relative min-h-screen'>
       <Header />
       <Outlet />
-      <span className='p-3 absolute bottom-8 right-8 flex items-center justify-center bg-slate-200 rounded-full cursor-pointer'>
+      <span className='p-3 fixed bottom-8 right-8 flex items-center justify-center bg-slate-200 rounded-full cursor-pointer'>
         <MdOutlineNightlight size={18} />
       </span>
     </main>

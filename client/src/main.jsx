@@ -20,17 +20,21 @@ import { Provider } from 'react-redux'
 import { store, persister } from './store/store.js';
 // import { PersistGate } from 'redux-persist/lib/integration/react';
 import { PersistGate } from 'redux-persist/integration/react';
+import Profile from './pages/auth/Profile.jsx';
+import PageNotFound from './pages/PageNotFound.jsx';
 // You can do this:
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route index path="/" element={<Home />} />
-      <Route index path="about" element={<About />} />
-      <Route index path="projects" element={<Projects />} />
-      <Route index path="dashboard" element={<Dashboard />} />
-      <Route index path="sign-up" element={<SignUp />} />
-      <Route index path="sign-in" element={<SignIn />} />
-      <Route index path="forgot-password" element={<ForgotPassword />} />
+      <Route  path="about" element={<About />} />
+      <Route  path="projects" element={<Projects />} />
+      <Route  path="dashboard" element={<Dashboard />} />
+      <Route  path="sign-up" element={<SignUp />} />
+      <Route  path="sign-in" element={<SignIn />} />
+      <Route  path="profile" element={<Profile />} />
+      <Route  path="forgot-password" element={<ForgotPassword />} />
+      <Route  path="*" element={<PageNotFound />} />
     </Route>
   )
 );
