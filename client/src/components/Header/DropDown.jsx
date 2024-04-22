@@ -29,12 +29,12 @@ const DropDown = ({userInfo}) => {
 
 
   return (
-    <div className="relative">
+    <div className="relative z-[1000]">
     <button
       className="inline-flex items-center justify-center rounded-full "
       onClick={toggleDropdown}
     >
-     <img title={userInfo.name} src={userInfo.googlePhotoURL} alt={userInfo.name}  className='w-10 h-10 p-1 hover:scale-125 ml-2 border border-slate-500 rounded-full bg-cover bg-center'/>
+     <img title={userInfo?.name} src={userInfo?.googlePhotoURL} alt={userInfo?.name}  className='w-10 h-10 p-1 hover:scale-125 ml-2 border border-slate-500 rounded-full bg-cover bg-center'/>
     </button>
 
     {isOpen && (

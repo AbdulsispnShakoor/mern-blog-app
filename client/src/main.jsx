@@ -23,6 +23,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import Profile from './pages/auth/Profile.jsx';
 import PageNotFound from './pages/PageNotFound.jsx';
 import { ThemeProvider } from './components/theme/ThemeProvider.jsx';
+import PrivateRoute from './components/Private/PrivateRoute.jsx';
 // You can do this:
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -30,10 +31,14 @@ const router = createBrowserRouter(
       <Route index path="/" element={<Home />} />
       <Route  path="about" element={<About />} />
       <Route  path="projects" element={<Projects />} />
-      <Route  path="dashboard" element={<Dashboard />} />
+
+        <Route element={<PrivateRoute />}>
+          <Route  path="dashboard" element={<Dashboard />} />
+          <Route  path="profile" element={<Profile />} />
+        </Route>
+        
       <Route  path="sign-up" element={<SignUp />} />
       <Route  path="sign-in" element={<SignIn />} />
-      <Route  path="profile" element={<Profile />} />
       <Route  path="forgot-password" element={<ForgotPassword />} />
       <Route  path="*" element={<PageNotFound />} />
     </Route>

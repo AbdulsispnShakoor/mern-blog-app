@@ -65,11 +65,11 @@ const SignIn = () => {
 
 
     return (
-        <section className="py-10 bg-gray-50 sm:py-16 lg:py-16">
+        <section className="lg:pt-36 py-10  sm:py-16 lg:py-16 min-h-screen">
             <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div className="max-w-2xl mx-auto text-center">
-                    <h2 className="text-3xl font-bold leading-tight text-black sm:text-4xl lg:text-5xl">Welcome Back!</h2>
-                    <p className="max-w-xl mx-auto mt-4 text-base leading-relaxed text-gray-600">Login to your account</p>
+                    <h2 className="text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl">Welcome Back!</h2>
+                    <p className="max-w-xl mx-auto mt-4 text-base leading-relaxed">Login to your account</p>
                 </div>
                 <div className="relative max-w-md mx-auto mt-8 md:mt-16">
                     {/*if error  */}
