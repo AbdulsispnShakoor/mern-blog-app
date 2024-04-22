@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom';
 import DashboardSidebar from '../components/DashboardSidebar';
 import { ThemeProvider } from '../components/theme/ThemeProvider';
+import Profile from './auth/Profile';
 
 
 const Dashboard = () => {
@@ -30,7 +31,7 @@ const Dashboard = () => {
       <ThemeProvider>
 
       {
-        tab === "profile" &&  <section className='w-[100vw] h-screen p-4 mt-12'> <h2>Profile</h2> </section>
+        tab === "profile" &&  <section className='w-[100vw] h-screen p-4'> <Profile /> </section>
       }
       </ThemeProvider>
 

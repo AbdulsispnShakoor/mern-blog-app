@@ -7,7 +7,7 @@ import { AiOutlineLogout } from "react-icons/ai";
 const DashboardSidebar = () => {
   return (
     <ThemeProvider>
-      <div className='shadow-lg py-8 lg:py-16 min-h-full z-0 px-4 lg:w-[10vw] flex items-center justify-between lg:flex-col gap-2'>
+      <div className='shadow-xl shadow-slate-200 py-8 lg:py-16 min-h-full z-0 px-4 lg:w-[15vw] flex items-start justify-between lg:flex-col gap-2'>
        <Link to={'/dashboard?tab=profile'}>
         <button className='p-2 px-4 border rounded flex gap-2 items-center justify-center'><CgProfile size={24}/> Profile</button>
        </Link> 
